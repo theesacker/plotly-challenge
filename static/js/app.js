@@ -1,9 +1,4 @@
 
-// // Create listener on dropdown
-d3.select("#selDataset").on("change", handleSubmit);
-function handleSubmit() {
-    d3.event.preventDefault();
-}
 
 function unpack(rows, index) {
     return rows.map(function (row) {
@@ -26,13 +21,22 @@ d3.json("data/samples.json").then(function (data) {
             .enter()
             .append("option")
             .html(function (d) {
-                return `<option id="${i++}">${names[j++]}</option>`;
+                return `<option value="${i++}">${names[j++]}</option>`;
             });
     }
 }
     // var sampValues = data.samples;
     // var 
     // console.log(sampValues[1])
+// // Create listener on dropdown
+d3.selectAll("#selDataset").on("change", getData);
+function getData() {
+    // d3.event.preventDefault();
+    var dropdownMenu = d3.select("#selDataset");
+    var dataset = dropdownMenu.property("value");
+    console.log(dataset);
+    
+}
 
 });
 
