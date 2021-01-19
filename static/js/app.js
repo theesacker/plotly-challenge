@@ -7,10 +7,10 @@ function unpack(rows, index) {
 }
 
 
-d3.json("data/samples.json").then(function (data) {
+d3.json("data/samples.json").then(function(data) {
     console.log(data);
     var names = data.names;
-    console.log(names);
+    // console.log(names);
 
     for (var i = 0; i < data.names.length; i++) {
     for (var j = 0; j < data.names.length; j++) {
@@ -34,12 +34,21 @@ function getData() {
     // d3.event.preventDefault();
     var dropdownMenu = d3.select("#selDataset");
     var dataset = dropdownMenu.property("value");
-    console.log(dataset);
-    
-}
+    // console.log(dataset);
 
+var sample = data.metadata.filter(bButton =>bButton.id == dataset);
+// var foundMData = mData
+console.log(sample)
+var mData = sample[0];
+var htmlBox = d3.select("#sample-metadata");
+htmlBox.html("");
+Object.entries(mData).forEach(([key,value]) => {
+    htmlBox.append("h3").text(`${key}: ${value}`);
 });
 
+}
+});
+// d3.json("data/samples.json").then(function(data) {
 
 
 // var sampleValues = data.samples.id;
