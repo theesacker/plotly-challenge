@@ -36,23 +36,67 @@ function getData() {
     var dataset = dropdownMenu.property("value");
     // console.log(dataset);
 
-var sample = data.metadata.filter(bButton =>bButton.id == dataset);
-// var foundMData = mData
-console.log(sample)
-var mData = sample[0];
+// create MetaData box
+var sampleBox = data.metadata.filter(bButton =>bButton.id == dataset);
+console.log(sampleBox)
+var mData = sampleBox[0];
 var htmlBox = d3.select("#sample-metadata");
 htmlBox.html("");
 Object.entries(mData).forEach(([key,value]) => {
     htmlBox.append("h3").text(`${key}: ${value}`);
 });
+// Create OTU graph
+var OTUChart = data.samples.filter(bButton =>bButton.id == dataset);
+// console.log(OTUChart);
+var Results = OTUChart[0];
+// var topTenSearch = Results.sort((a, b) => b.sample_values - a.sample_values);
+console.log(Results);
+// console.log(topTenSearch);
+var ids = Results.otu_ids;
+OTUID = ids.map(data => "OTU " + data)
+var labels = Results.otu_labels.slice(0,10);
+var values = Results.sample_values.slice(0,10).reverse();
+console.log(ids);
+// console.log(labels);
 
-}
-});
+var barChart = d3.select("#bar");
+var trace1 = {
+    x: values,
+    y: OTUID,
+    type:"bar",
+    text:labels,
+    orientation:"h"
+};
+var graphData = [trace1]
+var layout1 = {
+    title: "belly Button ID ${id}"
+};
+Plotly.newPlot("bar", graphData, layout1);
+var bubbleChart = d3.select("#bubble");
+var trace2 = {
+    x: ids,
+    y: values,
+    type: "scatter",
+    mode:"markers",
+    marker:{
+        color: ids,
+        size: values
+    }
+};
+var bubbleData = [trace2]
+var layout2 = {
+    title: "OTU ID size"
+};
+
+Plotly.newPlot("bubble", bubbleData, layout2);
+};
+
+// };
 // d3.json("data/samples.json").then(function(data) {
 
 
 // var sampleValues = data.samples.id;
 // console.log(sampleValues);
 
-// });
+});
 
